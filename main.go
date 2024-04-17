@@ -1,8 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 // string to morse
@@ -62,9 +63,24 @@ func stringToMorse(input string) string {
 	return morseString.String()
 }
 
-func main() {
-	test := "HELLO"
-	morseResult := stringToMorse(test)
+func toMoresHandler(c *gin.Context) {
+	var input struct {
+		Text string `json:"text"`
+	}
 
-	fmt.Println(morseResult)
+	if err := c.BindJSON(&input); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	morse := stringToMorse(input.Text)
+
+	c.JSON(200, gin.H{"morse": morse})
+}
+
+func main() {
+	r := gin.Default()
+	r.POST("/toMorse", toMoresHandler)
+
+	r.Run(":8800")
 }
