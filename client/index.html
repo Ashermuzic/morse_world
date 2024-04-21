@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Weird World</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Translate Morse Signal</h1>
+      <div>
+        <input type="text" id="morse-input" autocomplete="off" />
+        <button onclick="generateMorse()">Generate</button>
+      </div>
+      <div class="light-bulb">
+        <div class="light"></div>
+      </div>
+      <div class="success"></div>
+    </div>
+  </body>
+  <script>
+    function generateMorse() {
+      var morseInput = document.getElementById("morse-input");
+      var morseInputContent = morseInput.value;
+
+      fetch(`http://localhost:8800/toMorse/${morseInputContent}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+
+          return res.json();
+        })
+        .then((data) => {
+          var morseCode = data.morse;
+          var light = document.querySelector(".light");
+
+          // Iterate through Morse code characters
+          for (let i = 0; i < morseCode.length; i++) {
+            setTimeout(() => {
+              // Toggle active class based on Morse code character
+              if (morseCode[i] === "-") {
+                light.classList.add("active");
+                setTimeout(() => {
+                  light.classList.remove("active");
+                }, 2000); // Keep active for 2 seconds for "-"
+              } else if (morseCode[i] === ".") {
+                light.classList.add("active");
+                setTimeout(() => {
+                  light.classList.remove("active");
+                }, 1000); // Keep active for 1 second for "."
+              } else if (morseCode[i] == ".") {
+              }
+            }, i * 300); // Adjust timing for each Morse code character
+          }
+          // Set success message after Morse code animation completes
+          setTimeout(() => {
+            var successMessage = document.querySelector(".success");
+            successMessage.textContent = "Message has been received!!💂‍♂️";
+          }, morseCode.length * 300);
+        })
+        .catch((error) => {
+          console.error("There was a problem with the fetch operation:", error);
+        });
+    }
+  </script>
+</html>

@@ -1,0 +1,46 @@
+/* Body styles */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Set the body height to full viewport height */
+  margin: 0; /* Remove default margin */
+}
+
+/* Container styles */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px; /* Adjust spacing from the top */
+} /* Styles for the light bulb */
+
+.light-bulb {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin-top: 30px;
+  border-radius: 50%;
+  background-color: transparent; /* Make the background transparent */
+  border: 2px solid #333; /* Add a thin red border */
+  box-sizing: border-box; /* Include border in the element's dimensions */
+  margin-bottom: 30px;
+}
+
+.light {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #777;
+}
+
+.light-bulb .active {
+  background-color: rgb(255, 0, 0);
+  box-shadow: 0 0 5px 3px rgba(255, 0, 0, 0.7);
+}
